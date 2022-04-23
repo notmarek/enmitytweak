@@ -3,46 +3,12 @@
 
 // Get the download url for Enmity.js
 NSString* getDownloadURL() {
-  if (!IS_DEBUG) {
-    return @"https://files.enmity.app/Enmity.js";
-  }
-
-  return [NSString stringWithFormat:@"http://%@:8080/Enmity.js", DEBUG_IP];
+  return @"https://raw.githubusercontent.com/enmity-mod/enmity/main/dist/Enmity.js";
 }
 
 // Check for update
 BOOL checkForUpdate() {
-  if (IS_DEBUG) {
-    return true;
-  }
-  
-  NSMutableURLRequest *enmityRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:getDownloadURL()]];
-  enmityRequest.timeoutInterval = 5.0;
-  enmityRequest.cachePolicy = NSURLRequestReloadIgnoringCacheData;
-  NSHTTPURLResponse *response;
-  NSError *err;
-
-  [enmityRequest setValue:@"HEAD" forKey:@"HTTPMethod"];
-  [NSURLConnection sendSynchronousRequest:enmityRequest returningResponse:&response error:&err];
-
-  if (err) {
-    return false;
-  }
-
-  if ([response respondsToSelector:@selector(allHeaderFields)]) {
-    NSDictionary *headers = [response allHeaderFields];
-    NSString *lastModified = [headers valueForKey:@"Last-Modified"];
-
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *enmityVersion = [userDefaults stringForKey:@"enmity-version"];
-
-    if (!enmityVersion || ![enmityVersion isEqualToString:lastModified]) {
-      [userDefaults setObject:lastModified forKey:@"enmity-version"];
-      return true;
-    }
-  }
-
-  return false;
+  return true;
 }
 
 NSString* getHash(NSString *url) {
@@ -59,52 +25,15 @@ NSString* getHash(NSString *url) {
 
 // Make sure the Enmity hash matches with the github hash
 BOOL compareRemoteHashes() {
-  if (IS_DEBUG) {
-    return true;
-  }
-
-  NSString *githubHash = getHash(GITHUB_HASH);
-  if (githubHash == nil) {
-    return false;
-  }
-
-  NSString *remoteHash = getHash(REMOTE_HASH);
-  if (remoteHash == nil) {
-    return false;
-  }
-
-  return [githubHash isEqualToString:remoteHash];
+  return true;
 }
 
 // Make sure the downloaded Enmity file matches with the Github hash
 BOOL compareLocalHashes() {
-  if (IS_DEBUG) {
-    return true;
-  }
-
-  NSString *githubHash = getHash(GITHUB_HASH);
-  if (githubHash == nil) {
-    return false;
-  }
-
-  NSError *err;
-  NSData *enmityFile = [NSData dataWithContentsOfFile:ENMITY_PATH options:0 error:&err];
-  if (err) {
-    return false;
-  }
-
-  unsigned char enmityRawHash[CC_SHA256_DIGEST_LENGTH];
-	CC_SHA256(enmityFile.bytes, enmityFile.length, enmityRawHash);
-
-  NSMutableString *enmityHash = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
-	for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
-		[enmityHash appendFormat:@"%02x", enmityRawHash[i]];
-	}
-
-  return [githubHash isEqualToString:enmityHash];
+  return true;
 }
 
-// Download a file 
+// Download a file
 BOOL downloadFile(NSString *source, NSString *dest) {
   NSMutableURLRequest *downloadRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:source]];
   downloadRequest.cachePolicy = NSURLRequestReloadIgnoringCacheData;
@@ -130,7 +59,7 @@ BOOL checkFileExists(NSString *path) {
   return [fileManager fileExistsAtPath:path];
 }
 
-// Create a folder 
+// Create a folder
 BOOL createFolder(NSString *path) {
   NSFileManager *fileManager = [NSFileManager defaultManager];
 
@@ -161,7 +90,7 @@ NSArray* readFolder(NSString *path) {
   if (err) {
     return [[NSArray alloc] init];
   }
-  
+
   return files;
 }
 
