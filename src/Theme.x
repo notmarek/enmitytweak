@@ -52,12 +52,30 @@ UIColor* colorFromRGBAString(NSString *rgbaString) {
   return [UIColor colorWithRed:[[rgbaValues objectAtIndex:0] floatValue]/255.0f green:[[rgbaValues objectAtIndex:1] floatValue]/255.0f blue:[[rgbaValues objectAtIndex:2] floatValue]/255.0f alpha:[[rgbaValues objectAtIndex:3] floatValue]];
 }
 
+// Get the name of a theme via it's url
+NSString* getThemeName(NSURL *url) {
+  NSString *stripped = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@".disable" withString:@""];
+  return [stripped stringByReplacingOccurrencesOfString:@".json" withString:@""];
+}
+
 // Install a theme
 BOOL installTheme(NSURL *url) {
   NSString *dest = [NSString stringWithFormat:@"%@/%@", THEMES_PATH, [url lastPathComponent]];
 
   BOOL success = downloadFile(url.absoluteString, dest);
   return success;
+}
+
+// Check if a plugin exists
+BOOL checkTheme(NSString *name) {
+  NSString *path = [NSString stringWithFormat:@"%@/%@.json", THEMES_PATH, name];
+  NSFileManager *fileManager = [NSFileManager defaultManager];
+
+  if ([fileManager fileExistsAtPath:path]) {
+    return true;
+  }
+
+  return false;
 }
 
 // Uninstall a theme
@@ -936,15 +954,13 @@ UIColor* getColor(NSString *name) {
 %group KEYBOARD
 
 %hook UIKeyboard
-  - (id)initWithFrame:(CGRect)frame {
-    id orig = %orig;
+  - (void)didMoveToWindow {
+    %orig;
 
     id color = getColor(@"KEYBOARD");
     if (color != nil) {
       [self setBackgroundColor:color];
     }
-
-    return orig;
   }
 
   %end
