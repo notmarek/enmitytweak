@@ -8,7 +8,6 @@ on:
 jobs:
   build:
     name: Build and publish Enmity Alpha for iOS
-    if: github.event.base_ref == 'refs/heads/bleeding-edge'
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
