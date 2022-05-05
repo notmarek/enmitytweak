@@ -46,7 +46,7 @@ jobs:
       - name: Build package
         run: |
           rm -f packages/*
-          make package FINALPACKAGE=1
+          make package FINALPACKAGE=1 BLEEDING_EDGE=1
 
       - name: Find deb
         id: find_deb
@@ -57,7 +57,7 @@ jobs:
         run : |
           mkdir out
           ${{ github.workspace }}/Azule/azule -p "Enmity Alpha" -i Enmity.ipa -o out -f ${{ steps.find_deb.outputs.deb }}
-          mv $(find out -name "*.ipa" -print -quit) out/Enmity-alpha.ipa
+          mv $(find out -name "*.ipa" -print -quit) out/Enmity-Alpha.ipa
 
       - name: Create release
         uses: softprops/action-gh-release@v1
@@ -65,5 +65,5 @@ jobs:
           tag_name: ${{ github.sha }}
           files:  |
             ${{ steps.find_deb.outputs.deb }}
-            out/Enmity-alpha.ipa
+            out/Enmity-Alpha.ipa
           prerelease: true
