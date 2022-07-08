@@ -40,9 +40,13 @@ jobs:
           curl -L https://github.com/enmity-mod/patcher/releases/latest/download/patcher.mac-amd64 -o ${{ github.workspace }}/patcher
           chmod +x patcher
 
+      - name: Get Specific Discord IPA
+        run : |
+          curl -L https://cdn.discordapp.com/attachments/986937851042213888/994492556555599902/Discord_134.0.ipa -o ${{ github.workspace }}/Discord.ipa
+      
       - name: Patch Discord
         run : |
-          ${{ github.workspace }}/patcher
+          ${{ github.workspace }}/patcher -d ${{ github.workspace }}/Discord.ipa
 
       - name: Build package
         run: |
