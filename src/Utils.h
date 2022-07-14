@@ -6,8 +6,8 @@
 
 #if BLEEDING_EDGE == 1
 #   define IS_BLEEDING_EDGE true
-#   define ENMITY_URL @"https://raw.githubusercontent.com/enmity-mod/enmity/main/dist/Enmity.js"
-#else
+#   define ENMITY_URL @"https://raw.githubusercontent.com/notmarek/enmity/main/dist/Enmity.js"
+#else 
 #   define IS_BLEEDING_EDGE false
 #   define ENMITY_URL @"https://files.enmity.app/Enmity.js"
 #endif
