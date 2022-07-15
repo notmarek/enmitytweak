@@ -16,7 +16,7 @@ jobs:
           submodules: true
 
       - name: Check cache
-        id: verifiy-cache
+        id: verify-cache
         run: |
           echo "::set-output name=heads::`git ls-remote https://github.com/theos/theos | head -n 1 | cut -f 1`-`git ls-remote https://github.com/theos/sdks | head -n 1 | cut -f 1`"
 
@@ -26,6 +26,10 @@ jobs:
           path: |
             ${{ github.workspace }}/theos
           key: ${{ runner.os }}-${{ steps.verify-cache.outputs.heads }}
+          
+      - name: Prepare `make` for Theos Parallel Building 
+        run : |
+          brew install make && export PATH=\"$(brew --prefix make)/libexec/gnubin:\$PATH\"
 
       - name: Prepare Theos
         uses: Randomblock1/theos-action@v1
