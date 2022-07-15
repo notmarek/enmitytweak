@@ -2,7 +2,7 @@ name: Create a bleeding-edge release
 on:
   push:
     branches:
-      - bleeding-edge
+      - main
   workflow_dispatch:
 
 jobs:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: 'bleeding-edge'
+          ref: 'main'
           submodules: true
 
       - name: Check cache
