@@ -2,8 +2,6 @@
 #import "../headers/RCTRootView.h"
 #import "../headers/RCTCxxBridge.h"
 
-#define GITHUB_HASH @"https://github.com/notmarek/enmity/releases/latest/download/hash"
-#define REMOTE_HASH @"https://files.enmity.app/hash"
 #define BUNDLE_PATH @"/Library/Application Support/Enmity/EnmityFiles.bundle"
 
 #if BLEEDING_EDGE == 1
@@ -16,9 +14,6 @@
 
 NSString* getDownloadURL();
 BOOL checkForUpdate();
-NSString* getHash(NSString *url);
-BOOL compareRemoteHashes();
-BOOL compareLocalHashes();
 BOOL downloadFile(NSString *source, NSString *dest);
 
 BOOL checkFileExists(NSString *path);
