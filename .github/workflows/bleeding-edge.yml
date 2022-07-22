@@ -45,7 +45,7 @@ jobs:
       
       - name: Get Specific Discord IPA
         run : |
-          curl -L https://cdn.discordapp.com/attachments/986937851042213888/997326674477719673/Discord_135.0.ipa -o ${{ github.workspace }}/Discord.ipa
+          curl -L https://i.kawaii.sh/qB1GaEh.ipa -o ${{ github.workspace }}/Discord.ipa
       
       - name: Patch Discord
         run : |
