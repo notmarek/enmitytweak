@@ -1,9 +1,9 @@
 name: Create a bleeding-edge release
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: workflow_dispatch
+inputs:
+  ipaUrl:
+    description: 'Clean IPA url.'
+    required: true
 
 jobs:
   build:
@@ -29,7 +29,7 @@ jobs:
           
       - name: Prepare `make` for Theos Parallel Building 
         run : |
-          brew install make && export PATH=\"$(brew --prefix make)/libexec/gnubin:\$PATH\"
+          brew install make
 
       - name: Prepare Theos
         uses: Randomblock1/theos-action@v1
@@ -43,9 +43,9 @@ jobs:
           curl -L https://github.com/enmity-mod/patcher/releases/latest/download/patcher.mac-amd64 -o ${{ github.workspace }}/patcher
           chmod +x patcher
       
-      - name: Get Specific Discord IPA
+      - name: Get Specified Discord IPA
         run : |
-          curl -L https://cdn.discordapp.com/attachments/986937851042213888/1001882836091027496/Discord_137.0.ipa -o ${{ github.workspace }}/Discord.ipa
+          curl -L {{inputs.ipaUrl}} -o ${{ github.workspace }}/Discord.ipa
       
       - name: Patch Discord
         run : |
@@ -54,7 +54,7 @@ jobs:
       - name: Build package
         run: |
           rm -f packages/*
-          make package FINALPACKAGE=1 BETA=1
+          /usr/local/opt/make/libexec/gnubin/make package FINALPACKAGE=1 BETA=1
 
       - name: Find deb
         id: find_deb
