@@ -1,12 +1,12 @@
 name: Create a bleeding-edge release
-on: workflow_dispatch
-
+on: 
+  workflow_dispatch:
+    inputs:
+      ipaUrl:
+        description: 'Clean IPA url.'
+        required: true
 
 jobs:
-  inputs:
-    ipaUrl:
-      description: 'Clean IPA url.'
-      required: true
   build:
     name: Build and publish Enmity Alpha for iOS
     runs-on: macos-latest
