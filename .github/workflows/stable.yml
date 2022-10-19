@@ -30,7 +30,7 @@ jobs:
             ${{ github.workspace }}/theos
           key: ${{ runner.os }}-${{ steps.verify-cache.outputs.heads }}
       - name: Download Discord IPA
-        run : wget "https://cdn.discordapp.com/attachments/1015971724895989780/1029289428193124432/Discord_149.0.ipa" -O Discord.ipa
+        run : wget "https://cdn.discordapp.com/attachments/1015971724895989780/1031357912880271360/Discord_150.0.ipa" -O Discord.ipa
       - name: Prepare Theos
         uses: Randomblock1/theos-action@v1
 
